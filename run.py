@@ -116,6 +116,17 @@ def calculate_stock_data(data):
 
     return new_stock_data
 
+
+def get_stock_values(data):
+    """
+    Returns a dictionary object and prints it to the terminal
+    which shows how many of each sandwiches need to be made
+    for the next market
+    """
+    headings = SHEET.worksheet("stock").row_values(1)
+    return {k:v for k,v in zip(headings, data)}
+
+
 def main():
     """
     Run all program functions
@@ -128,7 +139,10 @@ def main():
     sales_columns = get_last_5_entries_sales()
     stock_data = calculate_stock_data(sales_columns)
     update_worksheet(stock_data, "stock")
-
+    return stock_data
 
 print("Welcome to Love Sandwiched Data Automation.\n")
-main()
+stock_data = main()
+
+stock_values = get_stock_values(stock_data)
+print(f"Make the following numbers of sandwiches for the next market:\n\n {stock_values}")
